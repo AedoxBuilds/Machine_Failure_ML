@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Machine Cluster Predictor</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f4f8;
+            margin: 0;
+            padding: 40px 16px;
+            color: #1f2937;
+        }
+        .card {
+            max-width: 460px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        h1 { margin: 0 0 4px; font-size: 22px; }
+        p.sub { margin: 0 0 20px; color: #6b7280; font-size: 14px; }
+        label { display: block; margin: 14px 0 6px; font-size: 14px; font-weight: bold; }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+        button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 12px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover { background: #1d4ed8; }
+        .result {
+            margin-top: 22px;
+            padding: 16px;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .error {
+            margin-top: 22px;
+            padding: 12px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            color: #b91c1c;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Machine Cluster Predictor</h1>
+        <p class="sub">Enter the sensor readings to find which cluster the machine belongs to.</p>
+
+        <form method="POST">
+            {% for col in columns %}
+                <label for="{{ col }}">{{ col.replace('_', ' ') }}</label>
+                <input type="number" step="any" id="{{ col }}" name="{{ col }}"
+                       value="{{ values.get(col, '') }}" required>
+            {% endfor %}
+            <button type="submit">Predict Cluster</button>
+        </form>
+
+        {% if result is not none %}
+            <div class="result">Predicted Cluster: <strong>{{ result }}</strong></div>
+        {% endif %}
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
